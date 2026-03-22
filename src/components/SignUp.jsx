@@ -15,15 +15,31 @@ export default function SignUp() {
     setUser({...user, gender})
   }
 
-  const onSubmitHandler = (e)=>{
+  const onSubmitHandler = async (e)=>{
     e.preventDefault();
-    setUser({
-      fullName: "",
-      username: "",
-      password: "",
-      confirmPassword: "",
-      gender: "",
-    });    
+    try {
+      const res = await axios.post(
+        "https://chat-go-app-backend.vercel.app/api/v1/user/register",
+        user,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error.res?.data || error.message);
+    }
+
+    // setUser({
+    //   fullName: "",
+    //   username: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   gender: "",
+    // });    
   }
 
   return (
