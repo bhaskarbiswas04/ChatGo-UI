@@ -89,8 +89,7 @@ export default function SignUp() {
                 placeholder="Confirm Password"
               />
             </div>
-
-                {/* web developer */}
+            
             <div className="flex w-full ms-2 justify-start gap-4">
               <div>
                 <input
