@@ -1,18 +1,40 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 export default function Login() {
-    const [user, setUser] = useState({
-      username: "",
-      password: "",
-    });
-  
-    const onSubmitHandler = (e)=>{
-      e.preventDefault();      
-      setUser({
-        username: "",
-        password: "",
-      });    
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://chat-go-app-backend.vercel.app/api/v1/user/login",
+        user,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+      navigate("/");
+      console.log(response);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
     }
+
+    // setUser({
+    //   username: "",
+    //   password: "",
+    // });
+  };
 
   return (
     <div className="min-w-100 mx-auto">
@@ -52,7 +74,9 @@ export default function Login() {
             </p>
 
             <div>
-              <button type="submit" className="btn btn-block btn-accent ">Log In</button>
+              <button type="submit" className="btn btn-block btn-accent ">
+                Log In
+              </button>
             </div>
           </div>
         </form>
