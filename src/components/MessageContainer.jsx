@@ -1,3 +1,4 @@
+import SendInput from "./SendInput";
 
 export default function MessageContainer () {
     return (
@@ -15,6 +16,9 @@ export default function MessageContainer () {
             <div>
               <p className="text-white">Bhaskar Biswas</p>
             </div>
+          </div>
+          <div>
+            <SendInput />
           </div>
         </div>
     );
