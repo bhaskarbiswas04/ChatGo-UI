@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setOtherUsers } from '../redux/userSlice';
 
 function useGetOtherUsers() {
+    const dispatch = useDispatch();
 
-  
     useEffect(()=>{
         const fetchOtherUsers = async()=>{
             try {
@@ -12,13 +14,14 @@ function useGetOtherUsers() {
                   `https://chat-go-app-backend.vercel.app/api/v1/user`,
                 );
                 console.log(response);
+                dispatch(setOtherUsers(response.data))
                 
             } catch (error) {
                 console.log(error);
             }
         }
         fetchOtherUsers();
-    })
+    }, [])
 }
 
 export default useGetOtherUsers

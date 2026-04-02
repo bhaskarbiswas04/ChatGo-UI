@@ -27,6 +27,7 @@ export default function Login() {
         },
       );
       navigate("/");
+      toast.success("Logged In Successfully");
       console.log(response.data);
       dispatch(setAuthUser(response.data))
     } catch (error) {
@@ -34,10 +35,10 @@ export default function Login() {
       console.log(error);
     }
 
-    // setUser({
-    //   username: "",
-    //   password: "",
-    // });
+    setUser({
+      username: "",
+      password: "",
+    });
   };
 
   return (

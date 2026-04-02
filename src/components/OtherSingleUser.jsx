@@ -1,20 +1,21 @@
 import React from 'react'
 
-function OtherSingleUser() {
+function OtherSingleUser(props) {
+  const user = props.user;
   return (
     <div>
       <div className="group flex items-center gap-2 hover:bg-blue-300 rounded-md p-2 cursor-pointer transition-all duration-300">
         <div className="avatar avatar-online">
           <div className="w-12 rounded-full">
             <img
-              src="https://wallpapers.com/images/featured/cool-profile-picture-87h46gcobjl5e4xu.jpg"
+              src={user?.profilePhoto}
               alt="user-profile"
             />
           </div>
         </div>
 
         <div>
-          <p className="group-hover:text-black">Bhaskar Biswas</p>
+          <p className="group-hover:text-black">{user?.fullName}</p>
         </div>
       </div>
       <div className="divider h-1 py-0 my-0"></div>
