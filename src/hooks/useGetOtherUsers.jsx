@@ -7,13 +7,13 @@ function useGetOtherUsers() {
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        const fetchOtherUsers = async()=>{
+        const fetchOtherUsers = async ()=>{
             try {
                 axios.defaults.withCredentials = true;
                 const response = await axios.get(
                   `https://chat-go-app-backend.vercel.app/api/v1/user`,
                 );
-                console.log(response);
+                // console.log(response);
                 dispatch(setOtherUsers(response.data))
                 
             } catch (error) {
