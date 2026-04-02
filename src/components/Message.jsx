@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Message() {
+function Message({message}) {
   return (
     <div className="chat chat-end">
       <div className="chat-image avatar">
@@ -15,7 +15,7 @@ function Message() {
         <time className="text-xs opacity-50">12:45</time>
       </div>
       <div className="chat-bubble chat-bubble-accent">
-        You were the Chosen One!
+        {message?.message}
       </div>
     </div>
   );
