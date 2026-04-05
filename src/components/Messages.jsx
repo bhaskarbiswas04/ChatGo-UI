@@ -10,7 +10,7 @@ function Messages() {
   return (
     <div className="p-4 flex-1 overflow-auto">
       {
-        messages?.map(message => {
+        messages && messages?.map(message => {
           return (
             <Message key={message._id} message={message} />
           )
