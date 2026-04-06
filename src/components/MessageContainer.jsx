@@ -33,7 +33,7 @@ export default function MessageContainer () {
           </div>
         ) : (
           <div className="md:min-w-137.5 flex flex-col justify-center items-center">
-            <h1 className="text-2xl font-bold">Hi, {authUser.fullName}</h1>
+            <h1 className="text-2xl font-bold">Hi, {authUser?.fullName}</h1>
             <h1 className="text-xl">Let's select a friend.</h1>
           </div>
         )}
