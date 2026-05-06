@@ -31,7 +31,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="border-r border-slate-700 p-4 flex flex-col h-137.5">
+    <div className="border-r border-slate-700 p-4 flex flex-col h-137.5 ">
       {/* Search */}
       <form onSubmit={searchSubmitHandler} className="flex items-center gap-2">
         <input
