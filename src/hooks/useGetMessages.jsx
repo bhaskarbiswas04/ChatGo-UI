@@ -7,11 +7,11 @@ function useGetMessages() {
     const dispatch = useDispatch();
     const { selectedUser } = useSelector(store=>store.user);
 
-    const token = localStorage.getItem("token");
-
   useEffect(() => {
     const fetchMessages = async () => {
       try {
+        const token = localStorage.getItem("token");
+        
         const response = await axios.get(
           `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`,
           {
