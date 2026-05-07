@@ -12,7 +12,6 @@ function useGetMessages() {
       try {
         const response = await axios.get(
           `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`,
-          { withCredentials: true }
         );
         console.log(response);
         dispatch(setMessages(response.data))
