@@ -22,7 +22,6 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      // If logged in, show Home. If not, show Login.
       element: authUser ? <HomePage /> : <LogIn />,
     },
     {
