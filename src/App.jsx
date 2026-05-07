@@ -27,13 +27,11 @@ function App() {
     },
     {
       path: "/signup",
-      // If already logged in, redirect away from signup to home
-      element: authUser ? <Navigate to="/" /> : <SignUp />,
+      element: <SignUp />,
     },
     {
       path: "/login",
-      // If already logged in, redirect away from login to home
-      element: authUser ? <Navigate to="/" /> : <LogIn />,
+      element: <LogIn />,
     },
   ]);
 
