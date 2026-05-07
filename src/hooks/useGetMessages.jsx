@@ -10,9 +10,9 @@ function useGetMessages() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        axios.defaults.withCredentials = true;
         const response = await axios.get(
           `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`,
+          { withCredentials: true }
         );
         console.log(response);
         dispatch(setMessages(response.data))

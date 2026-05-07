@@ -1,17 +1,18 @@
 import { useEffect } from 'react';
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setOtherUsers } from '../redux/userSlice';
 
 function useGetOtherUsers() {
     const dispatch = useDispatch();
+    const { authUser } = useSelector((store) => store.user);
 
     useEffect(()=>{
         const fetchOtherUsers = async ()=>{
             try {
-                axios.defaults.withCredentials = true;
                 const response = await axios.get(
                   `https://chat-go-app-backend.vercel.app/api/v1/user`,
+                  { withCredentials: true }
                 );
                 // console.log(response);
                 dispatch(setOtherUsers(response.data))
@@ -20,8 +21,11 @@ function useGetOtherUsers() {
                 console.log(error);
             }
         }
-        fetchOtherUsers();
-    }, [])
+
+        if (authUser) {
+          fetchOtherUsers();
+        }
+    }, [authUser, dispatch])
 }
 
 export default useGetOtherUsers
