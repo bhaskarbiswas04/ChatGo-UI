@@ -26,6 +26,9 @@ export default function Login() {
           withCredentials: true,
         },
       );
+      if(response.data.success) {
+        localStorage.setItem("token", response.data.token)
+      }
       navigate("/");
       toast.success("Logged In Successfully");
       console.log(response.data);

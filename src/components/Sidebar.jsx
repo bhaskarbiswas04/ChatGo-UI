@@ -20,6 +20,7 @@ export default function Sidebar() {
       const response = await axios.get(
         "https://chat-go-app-backend.vercel.app/api/v1/user/logout",
       );
+      localStorage.removeItem("token");
       dispatch(setAuthUser(null)); // Removed auth-user from redux
       navigate("/login"); // navigated to login page
       toast.success(response.data.message);
