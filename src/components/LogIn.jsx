@@ -29,7 +29,7 @@ export default function Login() {
         localStorage.setItem("token", response.data.token)
       }
       navigate("/");
-      toast.success("Logged In Successfully");
+      toast.success(response.data.message);
       console.log(response.data);
       dispatch(setAuthUser(response.data))
     } catch (error) {
