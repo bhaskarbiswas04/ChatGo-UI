@@ -7,21 +7,30 @@ function useGetMessages() {
     const dispatch = useDispatch();
     const { selectedUser } = useSelector(store=>store.user);
 
+    const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
           `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Manually sending the token
+            },
+          },
         );
         console.log(response);
-        dispatch(setMessages(response.data))
+        dispatch(setMessages(response.data));
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchMessages();
-  }, [selectedUser]);
+    if (selectedUser?._id) {
+      fetchMessages();
+    }
+  }, [selectedUser, dispatch]);
 }
 
 export default useGetMessages;
