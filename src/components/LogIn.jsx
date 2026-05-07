@@ -28,7 +28,7 @@ export default function Login() {
       if(response.data.success) {
         localStorage.setItem("token", response.data.token)
       }
-      navigate("/");
+      navigate("/"); 
       toast.success(response.data.message);
       console.log(response.data);
       dispatch(setAuthUser(response.data))
