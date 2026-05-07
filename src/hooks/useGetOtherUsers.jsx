@@ -14,12 +14,11 @@ function useGetOtherUsers() {
 
                 const response = await axios.get(
                   `https://chat-go-app-backend.vercel.app/api/v1/user`,
-                  { withCredentials: true },
                   {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                  }
+                      Authorization: `Bearer ${token}`,
+                    },
+                  },
                 );
                 // console.log(response);
                 dispatch(setOtherUsers(response.data))
