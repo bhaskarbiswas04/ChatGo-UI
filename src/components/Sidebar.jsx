@@ -6,23 +6,25 @@ import { useNavigate } from "react-router-dom";
 
 import OtherUsers from "./OtherUsers";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAuthUser } from "../redux/userSlice";
 
 export default function Sidebar() {
   const [search, setSearch] = useState("");
   const {otherUsers} = useSelector(store=>store.user);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const logoutHandler = async ()=>{
     try {
       const response = await axios.get(
         "https://chat-go-app-backend.vercel.app/api/v1/user/logout",
       );
-      navigate("/login")
+      dispatch(setAuthUser(null)); // Removed auth-user from redux
+      navigate("/login"); // navigated to login page
       toast.success(response.data.message);
     } catch (error) {
       console.log(error);
-      
     }
   }
 
