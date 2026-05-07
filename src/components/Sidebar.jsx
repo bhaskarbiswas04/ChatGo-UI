@@ -1,13 +1,13 @@
 import { ImSearch } from "react-icons/im";
 import { BiLogOutCircle } from "react-icons/bi";
-import axios from "axios";
-import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom";
-
-import OtherUsers from "./OtherUsers";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/userSlice";
+import axios from "axios";
+import toast from "react-hot-toast"
+import OtherUsers from "./OtherUsers";
+
 
 export default function Sidebar() {
   const [search, setSearch] = useState("");
