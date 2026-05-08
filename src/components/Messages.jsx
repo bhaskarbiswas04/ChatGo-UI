@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Message from "../components/Message";
 import useGetMessages from "../hooks/useGetMessages";
+import { useEffect } from "react";
 
 function Messages() {
   useGetMessages();
