@@ -14,15 +14,12 @@ function SendInput() {
   const onSubmitHandler = async (e) =>{
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-
       const response = await axios.post(
         `https://chat-go-app-backend.vercel.app/api/v1/message/send/${selectedUser?._id}`,
         { message },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
         },
       );
