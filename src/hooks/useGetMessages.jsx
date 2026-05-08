@@ -10,16 +10,8 @@ function useGetMessages() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const token = localStorage.getItem("token");
-        
         const response = await axios.get(
-          `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Manually sending the token
-            },
-          },
-        );
+          `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`);
         console.log(response);
         dispatch(setMessages(response.data));
       } catch (error) {

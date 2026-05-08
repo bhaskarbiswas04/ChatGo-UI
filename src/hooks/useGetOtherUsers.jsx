@@ -10,16 +10,9 @@ function useGetOtherUsers() {
     useEffect(()=>{
         const fetchOtherUsers = async ()=>{
             try {
-                const token = localStorage.getItem("token");
 
                 const response = await axios.get(
-                  `https://chat-go-app-backend.vercel.app/api/v1/user`,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  },
-                );
+                  `https://chat-go-app-backend.vercel.app/api/v1/user`);
                 // console.log(response);
                 dispatch(setOtherUsers(response.data))
                 
