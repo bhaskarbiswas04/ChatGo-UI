@@ -1,9 +1,8 @@
-import { ImSearch } from "react-icons/im";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAuthUser } from "../redux/userSlice";
+import { setAuthUser, setOtherUsers } from "../redux/userSlice";
 import axios from "axios";
 import toast from "react-hot-toast"
 import OtherUsers from "./OtherUsers";
@@ -14,6 +13,11 @@ export default function Sidebar() {
   const {otherUsers} = useSelector(store=>store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const filteredUsers =
+    otherUsers?.filter((user) =>
+      user.fullName.toLowerCase().includes(search.toLowerCase()),
+    ) || [];
 
   const logoutHandler = async ()=>{
     try {
@@ -31,6 +35,9 @@ export default function Sidebar() {
 
   const searchSubmitHandler = (e)=>{
     e.preventDefault();
+    if (filteredUsers.length === 0) {
+      toast.error("User Not Found!");
+    }
   }
 
   return (
@@ -44,15 +51,12 @@ export default function Sidebar() {
           className="input input-bordered rounded-md w-full"
           placeholder="search.."
         />
-
-        <button type="submit" className="btn">
-          <ImSearch />
-        </button>
       </form>
 
       <div className="divider"></div>
 
-      <OtherUsers />
+      <OtherUsers users={filteredUsers} />
+
       <div className="mt-4 flex items-center gap-2 cursor-pointer hover:text-red-500">
         <BiLogOutCircle className="text-xl" />
         <span onClick={logoutHandler}>Log Out</span>
