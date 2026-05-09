@@ -8,7 +8,7 @@ export default function MessageContainer () {
 
   const { selectedUser, authUser } = useSelector(store=>store.user);
   // const { messages } = useSelector((store) => store.message);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
 
   useEffect(()=>{
     return () => dispatch(setSelectedUser(null));
