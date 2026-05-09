@@ -6,13 +6,16 @@ import { setAuthUser } from "../redux/userSlice";
 import axios from "axios";
 import toast from "react-hot-toast"
 import OtherUsers from "./OtherUsers";
+import useGetOtherUsers from "../hooks/useGetOtherUsers";
 
 
 export default function Sidebar() {
   const [search, setSearch] = useState("");
-  const {otherUsers} = useSelector(store=>store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  useGetOtherUsers();
+  const { otherUsers } = useSelector(store=>store.user);
 
   const filteredUsers =
     otherUsers?.filter((user) =>
@@ -59,7 +62,7 @@ export default function Sidebar() {
         <OtherUsers users={filteredUsers} />
       ) : (
         <div className="flex-1 flex items-center justify-center text-gray-400 italic">
-          No user found!
+          {search.length > 0 ? "No user found" : "Loading users..."}
         </div>
       )}
 
