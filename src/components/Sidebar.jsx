@@ -2,7 +2,7 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAuthUser, setOtherUsers } from "../redux/userSlice";
+import { setAuthUser } from "../redux/userSlice";
 import axios from "axios";
 import toast from "react-hot-toast"
 import OtherUsers from "./OtherUsers";
@@ -55,7 +55,13 @@ export default function Sidebar() {
 
       <div className="divider"></div>
 
-      <OtherUsers users={filteredUsers} />
+      {filteredUsers.length > 0 ? (
+        <OtherUsers users={filteredUsers} />
+      ) : (
+        <div className="flex-1 flex items-center justify-center text-gray-400 italic">
+          No user found!
+        </div>
+      )}
 
       <div className="mt-4 flex items-center gap-2 cursor-pointer hover:text-red-500">
         <BiLogOutCircle className="text-xl" />

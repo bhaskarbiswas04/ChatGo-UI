@@ -36,7 +36,7 @@ export default function MessageContainer () {
         ) : (
           <div className="md:min-w-137.5 flex flex-col justify-center items-center">
             <h1 className="text-2xl font-bold">Hi, {authUser?.fullName}</h1>
-            <p>Select a conversation from the sidebar to start chatting</p>
+            <p>Select a conversation from the sidebar to start chat !</p>
           </div>
         )}
       </>
