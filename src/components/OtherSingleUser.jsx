@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 function OtherSingleUser({user}) {
   const dispatch = useDispatch();
-  const {selectedUser} = useSelector(store=>store.user);
+  const {selectedUser, onlineUsers} = useSelector(store=>store.user);
+
+  const isOnline = onlineUsers.includes(user._id); //chekcing if the user is online or not.
 
   const selectedUserHandler = (user)=>{
     dispatch(setSelectedUser(user));
@@ -16,7 +18,7 @@ function OtherSingleUser({user}) {
         onClick={() => selectedUserHandler(user)}
         className={` ${selectedUser?._id === user?._id ? "bg-blue-300 text-black" : ""} group flex items-center gap-2 hover:bg-blue-300 rounded-md p-2 cursor-pointer transition-all duration-300`}
       >
-        <div className="avatar avatar-online">
+        <div className={`avatar ${isOnline ? "avatar-online" : "avatar-offline" }`}>
           <div className="w-12 rounded-full">
             <img src={user?.profilePhoto} alt="user-profile" />
           </div>
