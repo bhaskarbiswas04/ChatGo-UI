@@ -1,4 +1,4 @@
-import OtherSingleUser from "./OtherSingleUser";
+import OtherSingleUser from "./OtherSingleUser"; 
 
 export default function OtherUsers({ users }) {
   if (!users || users.length === 0) return null;
