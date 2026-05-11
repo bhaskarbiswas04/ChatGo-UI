@@ -9,6 +9,10 @@ const store = configureStore({
     message: messageReducer,
     socket: socketReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;
