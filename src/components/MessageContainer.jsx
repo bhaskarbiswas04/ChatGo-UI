@@ -6,8 +6,9 @@ import { setSelectedUser } from "../redux/userSlice";
 
 export default function MessageContainer () {
 
-  const { selectedUser, authUser } = useSelector(store=>store.user);
+  const { selectedUser, authUser, onlineUsers } = useSelector(store=>store.user);
   // const { messages } = useSelector((store) => store.message);
+  const isOnline = onlineUsers?.includes(selectedUser?._id); 
   const dispatch = useDispatch(); 
 
   useEffect(()=>{
@@ -19,7 +20,9 @@ export default function MessageContainer () {
         {selectedUser !== null ? (
           <div className="md:min-w-137.5 flex flex-col">
             <div className="group flex items-center gap-2 bg-gray-800 p-3">
-              <div className="avatar avatar-online">
+              <div
+                className={`avatar ${isOnline ? "avatar-online" : "avatar-offline"}`}
+              >
                 <div className="w-12 rounded-full">
                   <img src={selectedUser?.profilePhoto} alt="user-profile" />
                 </div>
