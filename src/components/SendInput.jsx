@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FiSend, FiSmile } from "react-icons/fi";
 import EmojiPicker from 'emoji-picker-react'; // Import the picker
 import axios from "axios";
@@ -19,6 +19,10 @@ function SendInput() {
   const onEmojiClick = (emojiData) => {
     setMessage((prev) => prev + emojiData.emoji);
   };
+
+  const emojiPickerRef = useRef(null);
+
+  
 
 
   const onChangeHandler = (e) => {
@@ -78,24 +82,47 @@ function SendInput() {
     setMessage("");
   }
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      // If the picker is open AND the click was NOT inside the emojiPickerRef
+      if (
+        showEmojiPicker &&
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    // Add listener to the whole document
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    // Cleanup the listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showEmojiPicker]);
+
   return (
     <form onSubmit={onSubmitHandler} className="py-4 mx-3 relative">
       {/* Emoji Picker Popup */}
-      {showEmojiPicker && (
-        <div className="absolute bottom-16 left-0 z-50">
-          <EmojiPicker
-            onEmojiClick={onEmojiClick}
-            theme="dark" // Matches your UI
-            height={400}
-            width={300}
-          />
-        </div>
-      )}
+      <div ref={emojiPickerRef}>
+        {showEmojiPicker && (
+          <div className="absolute bottom-16 left-0 z-50">
+            <EmojiPicker
+              onEmojiClick={onEmojiClick}
+              theme="dark" // Matches your UI
+              height={400}
+              width={300}
+            />
+          </div>
+        )}
+      </div>
 
       <div className="w-full relative flex items-center">
         {/* Toggle Button */}
         <button
-          type="button" // Use type="button" so it doesn't submit the form
+          type="button"
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
           className="absolute left-3 text-gray-400 hover:text-white"
         >
