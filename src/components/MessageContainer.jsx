@@ -6,7 +6,9 @@ import { setSelectedUser } from "../redux/userSlice";
 
 export default function MessageContainer () {
 
-  const { selectedUser, authUser, onlineUsers } = useSelector(store=>store.user);
+  const { selectedUser, authUser, onlineUsers, typingStatus } = useSelector(
+    (store) => store.user,
+  );
   // const { messages } = useSelector((store) => store.message);
   const isOnline = onlineUsers?.includes(selectedUser?._id); 
   const dispatch = useDispatch(); 
@@ -34,6 +36,13 @@ export default function MessageContainer () {
             </div>
             {/* {messages !== "" ? <Messages /> : <p className="text-center p-4">No Previous Conversation yet!</p>} */}
             <Messages />
+
+            {typingStatus && (
+              <div className="text-shadow-md text-green-500 italic ml-2 text-center">
+                {selectedUser?.fullName} is typing...
+              </div>
+            )}
+
             <SendInput />
           </div>
         ) : (
