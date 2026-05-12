@@ -26,7 +26,7 @@ function Message({ message }) {
       </div>
 
       <div
-        className={`chat-bubble text-white ${
+        className={`chat-bubble text-gray-700 ${
           fromMe ? "chat-bubble-accent" : "chat-bubble-success"
         }`}
       >
