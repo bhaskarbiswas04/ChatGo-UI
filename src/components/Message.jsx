@@ -37,7 +37,7 @@ function Message({ message }) {
       </div>
 
       <div className="chat-footer mt-1">
-        <time className="text-[10px] opacity-50 uppercase">
+        <time className="text-[10px] opacity-50 uppercase"> 
           {formattedTime}
         </time>
       </div>
