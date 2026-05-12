@@ -12,7 +12,8 @@ function useGetOtherUsers() {
             try {
 
                 const response = await axios.get(
-                  `https://chat-go-app-backend.vercel.app/api/v1/user`);
+                  `https://chatgo-app-backend-1.onrender.com/api/v1/user`,
+                );
                 // console.log(response);
                 dispatch(setOtherUsers(response.data))
                 

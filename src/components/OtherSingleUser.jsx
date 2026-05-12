@@ -6,7 +6,7 @@ function OtherSingleUser({user}) {
   const dispatch = useDispatch();
   const {selectedUser, onlineUsers} = useSelector(store=>store.user);
 
-  const isOnline = onlineUsers.includes(user._id); //chekcing if the user is online or not.
+  const isOnline = onlineUsers?.includes(user?._id); //chekcing if the user is online or not.
 
   const selectedUserHandler = (user)=>{
     dispatch(setSelectedUser(user));

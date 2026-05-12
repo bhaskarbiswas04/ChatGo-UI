@@ -25,7 +25,7 @@ export default function Sidebar() {
   const logoutHandler = async ()=>{
     try {
       const response = await axios.get(
-        "https://chat-go-app-backend.vercel.app/api/v1/user/logout",
+        "https://chatgo-app-backend-1.onrender.com/api/v1/user/logout",
       );
       localStorage.removeItem("token");
       dispatch(setAuthUser(null)); // Removed auth-user from redux

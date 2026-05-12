@@ -15,7 +15,7 @@ function SendInput() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://chat-go-app-backend.vercel.app/api/v1/message/send/${selectedUser?._id}`,
+        `https://chatgo-app-backend-1.onrender.com/api/v1/message/send/${selectedUser?._id}`,
         { message },
         {
           headers: {

@@ -25,10 +25,10 @@ function App() {
 
   useEffect(()=>{
     if(authUser) {
-      const socket = io("http://localhost:8080", {
+      const socket = io("https://chatgo-app-backend-1.onrender.com", {
         query: {
           userId: authUser._id,
-        }
+        },
       });
       dispatch(setSocket(socket));
 

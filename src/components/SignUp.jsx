@@ -22,7 +22,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://chat-go-app-backend.vercel.app/api/v1/user/register",
+        "https://chatgo-app-backend-1.onrender.com/api/v1/user/register",
         user,
         {
           headers: {

@@ -11,7 +11,8 @@ function useGetMessages() {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `https://chat-go-app-backend.vercel.app/api/v1/message/${selectedUser?._id}`);
+          `https://chatgo-app-backend-1.onrender.com/api/v1/message/${selectedUser?._id}`,
+        );
         console.log(response);
         dispatch(setMessages(response.data));
       } catch (error) {
