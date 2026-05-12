@@ -1,7 +1,11 @@
-import {createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import './App.css'
-import io from "socket.io-client"
+import "./App.css";
+import io from "socket.io-client";
 import { useEffect } from "react";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/userSlice";
@@ -10,21 +14,29 @@ import HomePage from "./pages/HomePage";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/LogIn";
 
-const router = createBrowserRouter([
-  {path: "/", element: <HomePage />},
-  {path: "/signup", element: <SignUp />},
-  {path: "/login", element: <LogIn />},
-
-])
-
 function App() {
-
   const { authUser } = useSelector((store) => store.user);
   const { socket } = useSelector((store) => store.socket);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(authUser) {
+  // 1. Define the router inside the component to access authUser
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: authUser ? <HomePage /> : <Navigate to="/login" />,
+    },
+    {
+      path: "/signup",
+      element: authUser ? <Navigate to="/" /> : <SignUp />,
+    },
+    {
+      path: "/login",
+      element: authUser ? <Navigate to="/" /> : <LogIn />,
+    },
+  ]);
+
+  useEffect(() => {
+    if (authUser) {
       const socket = io("https://chatgo-app-backend-1.onrender.com", {
         query: {
           userId: authUser._id,
@@ -32,19 +44,18 @@ function App() {
       });
       dispatch(setSocket(socket));
 
-      socket.on("getOnlineUsers", (onlineUsers)=>{
+      socket.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
 
-      return ()=> socket.close();  // this will call the disconnect function from be/socket.js
+      return () => socket.close();
     } else {
-      if(socket) {
+      if (socket) {
         socket.close();
         dispatch(setSocket(null));
       }
     }
-  }, [authUser])
-
+  }, [authUser]);
 
   return (
     <div className="p-4 h-screen flex items-center justify-center">
@@ -53,5 +64,4 @@ function App() {
   );
 }
 
-export default App
-
+export default App;
