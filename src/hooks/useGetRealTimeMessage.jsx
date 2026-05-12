@@ -10,29 +10,36 @@ const useGetRealTimeMessage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Listen for new messages
-    socket?.on("newMessage", (newMessage) => {
+    // --- ADD THIS GUARD CLAUSE ---
+    if (!socket) return;
+
+    socket.on("newMessage", (newMessage) => {
       dispatch(setMessages([...messages, newMessage]));
     });
 
-    // Listen for typing start
-    // We only show the indicator if the sender is our currently selected user
-    socket?.on("typing", (senderId) => {
-      if (selectedUser?._id === senderId) {
-        dispatch(setTypingStatus(true));
+    socket.on("messagesSeen", ({ receiverId }) => {
+      if (selectedUser?._id === receiverId) {
+        const updatedMessages = messages.map((msg) => {
+          if (msg.opened === false) {
+            return { ...msg, opened: true };
+          }
+          return msg;
+        });
+        dispatch(setMessages(updatedMessages));
       }
     });
 
-    // Listen for typing stop
-    socket?.on("stop typing", () => {
-      dispatch(setTypingStatus(false));
+    socket.on("typing", (senderId) => {
+      if (selectedUser?._id === senderId) dispatch(setTypingStatus(true));
     });
 
-    // Cleanup: Unsubscribe from all events
+    socket.on("stop typing", () => dispatch(setTypingStatus(false)));
+
     return () => {
-      socket?.off("newMessage");
-      socket?.off("typing");
-      socket?.off("stop typing");
+      socket.off("newMessage");
+      socket.off("messagesSeen");
+      socket.off("typing");
+      socket.off("stop typing");
     };
   }, [socket, messages, selectedUser, dispatch]);
 };
