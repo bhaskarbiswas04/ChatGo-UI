@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import { FiSend } from "react-icons/fi";
+import { FiSend, FiSmile } from "react-icons/fi";
+import EmojiPicker from 'emoji-picker-react'; // Import the picker
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setMessages } from "../redux/messageSlice";
@@ -7,12 +8,17 @@ import { setMessages } from "../redux/messageSlice";
 function SendInput() {
 
   const [message, setMessage] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [typing, setTyping] = useState(false);
   const typingTimeoutRef = useRef(null);
   const { selectedUser, authUser } = useSelector(store=>store.user);
   const {messages} = useSelector(store=>store.message);
   const { socket } = useSelector((store) => store.socket);
   const dispatch = useDispatch();
+
+  const onEmojiClick = (emojiData) => {
+    setMessage((prev) => prev + emojiData.emoji);
+  };
 
 
   const onChangeHandler = (e) => {
@@ -43,6 +49,7 @@ function SendInput() {
 
   const onSubmitHandler = async (e) =>{
     e.preventDefault();
+    if (!message.trim()) return;
 
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
@@ -67,24 +74,44 @@ function SendInput() {
       console.log(error); 
     }
 
+    setShowEmojiPicker(false);
     setMessage("");
   }
 
   return (
-    <form onSubmit={onSubmitHandler} className="py-4 mx-3">
-      <div className="w-full relative">
+    <form onSubmit={onSubmitHandler} className="py-4 mx-3 relative">
+      {/* Emoji Picker Popup */}
+      {showEmojiPicker && (
+        <div className="absolute bottom-16 left-0 z-50">
+          <EmojiPicker
+            onEmojiClick={onEmojiClick}
+            theme="dark" // Matches your UI
+            height={400}
+            width={300}
+          />
+        </div>
+      )}
+
+      <div className="w-full relative flex items-center">
+        {/* Toggle Button */}
+        <button
+          type="button" // Use type="button" so it doesn't submit the form
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          className="absolute left-3 text-gray-400 hover:text-white"
+        >
+          <FiSmile size={20} />
+        </button>
+
         <input
           type="text"
-          onChange={onChangeHandler}
           value={message}
+          onChange={onChangeHandler}
           placeholder="Type your Message..."
-          className="border p-3 text-sm rounded-lg block w-full text-white"
+          className="border p-3 pl-10 text-sm rounded-lg block w-full text-white bg-gray-700"
         />
-        <button
-          type="submit"
-          className="absolute inset-y-0 inset-e-0 flex items-center"
-        >
-          <FiSend className="mr-4 size-5 cursor-pointer" />
+
+        <button type="submit" className="absolute right-3 text-accent">
+          <FiSend size={20} />
         </button>
       </div>
     </form>
