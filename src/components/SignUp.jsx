@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import axios from "axios"
-import toast from "react-hot-toast"
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux"; // Added hooks
+import { setLoading } from "../redux/loadingSlice"; // Import action
 
 export default function SignUp() {
   const [user, setUser] = useState({
@@ -10,16 +11,29 @@ export default function SignUp() {
     username: "",
     password: "",
     confirmPassword: "",
-    gender: ""
+    gender: "",
   });
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleCheckbox = (gender)=>{
-    setUser({...user, gender})
-  }
+  // Access loading state to disable UI elements
+  const { isLoading } = useSelector((store) => store.loading);
 
-  const onSubmitHandler = async (e)=>{
+  const handleCheckbox = (gender) => {
+    setUser({ ...user, gender });
+  };
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    // Client-side validation check
+    if (user.password !== user.confirmPassword) {
+      return toast.error("Passwords do not match");
+    }
+
+    dispatch(setLoading(true)); // START LOADING
+
     try {
       const res = await axios.post(
         "https://chatgo-app-backend-1.onrender.com/api/v1/user/register",
@@ -30,23 +44,25 @@ export default function SignUp() {
           },
         },
       );
-      
-      if(res.data.success) {
-        navigate("/login")
+
+      if (res.data.success) {
         toast.success(res.data.message);
+        navigate("/login");
       }
     } catch (error) {
-      console.log(error.res?.data || error.message);
+      console.log(error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      dispatch(setLoading(false)); // STOP LOADING
+      setUser({
+        fullName: "",
+        username: "",
+        password: "",
+        confirmPassword: "",
+        gender: "",
+      });
     }
-
-    setUser({
-      fullName: "",
-      username: "",
-      password: "",
-      confirmPassword: "",
-      gender: "",
-    });    
-  }
+  };
 
   return (
     <div className="min-w-100 mx-auto">
@@ -61,6 +77,8 @@ export default function SignUp() {
                 className="w-full input input-bordered h-10"
                 type="text"
                 placeholder="Full Name"
+                disabled={isLoading}
+                required
               />
             </div>
 
@@ -71,6 +89,8 @@ export default function SignUp() {
                 className="w-full input input-bordered h-10"
                 type="text"
                 placeholder="Username"
+                disabled={isLoading}
+                required
               />
             </div>
 
@@ -81,6 +101,8 @@ export default function SignUp() {
                 className="w-full input input-bordered h-10"
                 type="password"
                 placeholder="Password"
+                disabled={isLoading}
+                required
               />
             </div>
 
@@ -93,32 +115,32 @@ export default function SignUp() {
                 className="w-full input input-bordered h-10"
                 type="password"
                 placeholder="Confirm Password"
+                disabled={isLoading}
+                required
               />
             </div>
 
             <div className="flex w-full ms-2 justify-start gap-4">
-              <div>
+              <label className="label cursor-pointer gap-2">
                 <input
                   type="checkbox"
                   checked={user.gender === "male"}
-                  onChange={() => {
-                    handleCheckbox("male");
-                  }}
+                  onChange={() => handleCheckbox("male")}
                   className="checkbox"
-                />{" "}
-                Male
-              </div>
-              <div>
+                  disabled={isLoading}
+                />
+                <span className="label-text">Male</span>
+              </label>
+              <label className="label cursor-pointer gap-2">
                 <input
                   type="checkbox"
                   checked={user.gender === "female"}
-                  onChange={() => {
-                    handleCheckbox("female");
-                  }}
+                  onChange={() => handleCheckbox("female")}
                   className="checkbox"
-                /> {" "}
-                Female
-              </div>
+                  disabled={isLoading}
+                />
+                <span className="label-text">Female</span>
+              </label>
             </div>
 
             <p className="text-center p-3">
@@ -129,8 +151,16 @@ export default function SignUp() {
             </p>
 
             <div>
-              <button type="submit" className="btn btn-block btn-accent ">
-                Sign Up
+              <button
+                type="submit"
+                className="btn btn-block btn-accent"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Sign Up"
+                )}
               </button>
             </div>
           </div>

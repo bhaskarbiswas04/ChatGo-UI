@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import { useEffect } from "react";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/userSlice";
+import Loader from "./components/Loader";
 
 import HomePage from "./pages/HomePage";
 import SignUp from "./components/SignUp";
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <div className="p-4 h-screen flex items-center justify-center">
+      <Loader />
       <RouterProvider router={router} />
     </div>
   );
