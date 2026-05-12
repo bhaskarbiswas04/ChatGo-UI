@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/userSlice";
+import { setLoading } from "../redux/loadingSlice";
 import axios from "axios";
 import toast from "react-hot-toast"
 import OtherUsers from "./OtherUsers";
@@ -16,6 +17,7 @@ export default function Sidebar() {
   
   useGetOtherUsers();
   const { otherUsers } = useSelector(store=>store.user);
+  const { isLoading } = useSelector((store) => store.loading);
 
   const filteredUsers =
     otherUsers?.filter((user) =>
@@ -23,6 +25,7 @@ export default function Sidebar() {
     ) || [];
 
   const logoutHandler = async ()=>{
+    dispatch(setLoading(true));
     try {
       const response = await axios.get(
         "https://chatgo-app-backend-1.onrender.com/api/v1/user/logout",
@@ -33,6 +36,9 @@ export default function Sidebar() {
       toast.success(response.data.message);
     } catch (error) {
       console.log(error);
+      toast.error("Logout failed. Please try again.");
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 
