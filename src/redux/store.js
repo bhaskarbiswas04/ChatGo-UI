@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import messageReducer from "./messageSlice";
 import socketReducer from "./socketSlice";
+import loadingReducer from "./loadingSlice";
 import {
   persistReducer,
   FLUSH,
@@ -25,6 +26,7 @@ import {
    user: userReducer,
    message: messageReducer,
    socket: socketReducer,
+   loading: loadingReducer,
  });
 
  const persistedReducer = persistReducer(persistConfig, rootReducer);
