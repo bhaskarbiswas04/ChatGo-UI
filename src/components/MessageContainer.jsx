@@ -21,7 +21,7 @@ export default function MessageContainer () {
       <>
         {selectedUser !== null ? (
           <div className="md:min-w-137.5 flex flex-col">
-            <div className="group flex items-center gap-2 bg-gray-800 p-3">
+            <div className="group flex items-center gap-2 bg-gray-800 p-3 h-[64px]">
               <div
                 className={`avatar ${isOnline ? "avatar-online" : "avatar-offline"}`}
               >

@@ -10,15 +10,13 @@ function useGetOtherUsers() {
     useEffect(()=>{
         const fetchOtherUsers = async ()=>{
             try {
+              const response = await axios.get(
+                `https://chatgo-app-backend-1.onrender.com/api/v1/user`,
+              );
 
-                const response = await axios.get(
-                  `https://chatgo-app-backend-1.onrender.com/api/v1/user`,
-                );
-                
-                dispatch(setOtherUsers(response.data))
-                
+              dispatch(setOtherUsers(response.data));
             } catch (error) {
-                console.log(error);
+              console.log(error);
             }
         }
 

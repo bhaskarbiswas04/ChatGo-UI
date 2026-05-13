@@ -10,11 +10,12 @@ const useGetRealTimeMessage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // --- ADD THIS GUARD CLAUSE ---
     if (!socket) return;
 
     socket.on("newMessage", (newMessage) => {
-      dispatch(setMessages([...messages, newMessage]));
+      if (selectedUser?._id === newMessage.senderId) {
+        dispatch(setMessages([...messages, newMessage]));
+      }
     });
 
     socket.on("messagesSeen", ({ receiverId }) => {
