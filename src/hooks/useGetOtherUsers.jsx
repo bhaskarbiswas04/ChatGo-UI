@@ -14,7 +14,7 @@ function useGetOtherUsers() {
                 const response = await axios.get(
                   `https://chatgo-app-backend-1.onrender.com/api/v1/user`,
                 );
-                // console.log(response);
+                
                 dispatch(setOtherUsers(response.data))
                 
             } catch (error) {
